@@ -1,0 +1,147 @@
+go mian: unknown command
+Run 'go help' for usage.
+go mian: unknown command
+Run 'go help' for usage.
+
+2022/01/21 11:57:12 [32m/home/ipumpkin/go/pkg/mod/gorm.io/driver/sqlite@v1.2.6/migrator.go:32
+[0m[33m[0.023ms] [34;1m[rows:-][0m SELECT count(*) FROM sqlite_master WHERE type='table' AND name="domains"
+
+2022/01/21 11:57:12 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:88
+[0m[33m[0.021ms] [34;1m[rows:-][0m SELECT * FROM `domains` LIMIT 1
+
+2022/01/21 11:57:12 [32m/home/ipumpkin/go/pkg/mod/gorm.io/driver/sqlite@v1.2.6/migrator.go:257
+[0m[33m[0.019ms] [34;1m[rows:-][0m SELECT count(*) FROM sqlite_master WHERE type = "index" AND tbl_name = "domains" AND name = "idx_domains_deleted_at"
+
+2022/01/21 11:57:12 [32m/home/ipumpkin/go/pkg/mod/gorm.io/driver/sqlite@v1.2.6/migrator.go:32
+[0m[33m[0.013ms] [34;1m[rows:-][0m SELECT count(*) FROM sqlite_master WHERE type='table' AND name="ip_addrs"
+
+2022/01/21 11:57:12 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:88
+[0m[33m[0.013ms] [34;1m[rows:-][0m SELECT * FROM `ip_addrs` LIMIT 1
+
+2022/01/21 11:57:12 [32m/home/ipumpkin/go/pkg/mod/gorm.io/driver/sqlite@v1.2.6/migrator.go:186
+[0m[33m[0.020ms] [34;1m[rows:-][0m SELECT count(*) FROM sqlite_master WHERE type = "table" AND tbl_name = "ip_addrs" AND (sql LIKE "%CONSTRAINT \"fk_domains_ip_addrs\" %" OR sql LIKE "%CONSTRAINT fk_domains_ip_addrs %" OR sql LIKE "%CONSTRAINT `fk_domains_ip_addrs`%")
+
+2022/01/21 11:57:12 [32m/home/ipumpkin/go/pkg/mod/gorm.io/driver/sqlite@v1.2.6/migrator.go:257
+[0m[33m[0.016ms] [34;1m[rows:-][0m SELECT count(*) FROM sqlite_master WHERE type = "index" AND tbl_name = "ip_addrs" AND name = "idx_ip_addrs_deleted_at"
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /                         --> main.GetIndex (4 handlers)
+[GIN-debug] GET    /domain                   --> main.GetDomain (4 handlers)
+[GIN-debug] POST   /domain                   --> main.AddDomain (4 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :8888
+[GIN] 2022/01/21 - 11:57:19 | 200 |     408.997µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 11:57:25 | 200 |     284.361µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 11:57:29 | 200 |     269.793µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 11:57:30 | 200 |     294.623µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 11:57:32 | 200 |     882.045µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 11:57:33 | 200 |     251.886µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 11:57:34 | 200 |     254.723µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 11:57:35 | 200 |     260.345µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 11:57:36 | 200 |     276.166µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 11:57:37 | 200 |     230.917µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 11:57:37 | 200 |     248.584µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 11:57:41 | 200 |     255.148µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 11:57:42 | 200 |     239.956µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 11:57:43 | 200 |     226.632µs |       127.0.0.1 | GET      "/"
+
+2022/01/21 12:08:28 [32m/home/ipumpkin/go/pkg/mod/gorm.io/driver/sqlite@v1.2.6/migrator.go:32
+[0m[33m[0.031ms] [34;1m[rows:-][0m SELECT count(*) FROM sqlite_master WHERE type='table' AND name="domains"
+
+2022/01/21 12:08:28 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:88
+[0m[33m[0.021ms] [34;1m[rows:-][0m SELECT * FROM `domains` LIMIT 1
+
+2022/01/21 12:08:28 [32m/home/ipumpkin/go/pkg/mod/gorm.io/driver/sqlite@v1.2.6/migrator.go:257
+[0m[33m[0.024ms] [34;1m[rows:-][0m SELECT count(*) FROM sqlite_master WHERE type = "index" AND tbl_name = "domains" AND name = "idx_domains_deleted_at"
+
+2022/01/21 12:08:28 [32m/home/ipumpkin/go/pkg/mod/gorm.io/driver/sqlite@v1.2.6/migrator.go:32
+[0m[33m[0.014ms] [34;1m[rows:-][0m SELECT count(*) FROM sqlite_master WHERE type='table' AND name="ip_addrs"
+
+2022/01/21 12:08:28 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:88
+[0m[33m[0.013ms] [34;1m[rows:-][0m SELECT * FROM `ip_addrs` LIMIT 1
+
+2022/01/21 12:08:28 [32m/home/ipumpkin/go/pkg/mod/gorm.io/driver/sqlite@v1.2.6/migrator.go:186
+[0m[33m[0.023ms] [34;1m[rows:-][0m SELECT count(*) FROM sqlite_master WHERE type = "table" AND tbl_name = "ip_addrs" AND (sql LIKE "%CONSTRAINT \"fk_domains_ip_addrs\" %" OR sql LIKE "%CONSTRAINT fk_domains_ip_addrs %" OR sql LIKE "%CONSTRAINT `fk_domains_ip_addrs`%")
+
+2022/01/21 12:08:28 [32m/home/ipumpkin/go/pkg/mod/gorm.io/driver/sqlite@v1.2.6/migrator.go:257
+[0m[33m[0.014ms] [34;1m[rows:-][0m SELECT count(*) FROM sqlite_master WHERE type = "index" AND tbl_name = "ip_addrs" AND name = "idx_ip_addrs_deleted_at"
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /                         --> main.GetIndex (4 handlers)
+[GIN-debug] GET    /domain                   --> main.GetDomain (4 handlers)
+[GIN-debug] POST   /domain                   --> main.AddDomain (4 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :8888
+[GIN] 2022/01/21 - 12:08:32 | 200 |  107.679727ms |       127.0.0.1 | GET      "/"
+
+2022/01/21 12:08:37 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:277
+[0m[33m[112.204ms] [34;1m[rows:1][0m SELECT * FROM `ip_addrs` WHERE ip = "62.220.27.213" AND `ip_addrs`.`deleted_at` IS NULL
+map[created_at:2021-12-30T15:46:03.657546552-05:00 id:20 name:nrj.com updated_at:2021-12-30T15:46:03.657546552-05:00]
+map[created_at:2021-12-30T15:46:03.657546552-05:00 id:20 name:nrj.com updated_at:2021-12-30T15:46:03.657546552-05:00]
+2022/01/21 12:08:37 查询到数据
+[GIN] 2022/01/21 - 12:08:37 | 200 |  138.133322ms |       127.0.0.1 | GET      "/?q=62.220.27.213"
+
+2022/01/21 12:08:40 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:277
+[0m[33m[0.152ms] [34;1m[rows:0][0m SELECT * FROM `ip_addrs` WHERE ip = "192.168.129.33" AND `ip_addrs`.`deleted_at` IS NULL
+[GIN] 2022/01/21 - 12:08:40 | 200 |     435.926µs |       127.0.0.1 | GET      "/?q=192.168.129.33"
+
+2022/01/21 12:08:42 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:310
+[0m[33m[0.151ms] [34;1m[rows:0][0m SELECT * FROM `domains` WHERE name = "kkkkkkkkkkkkk" AND `domains`.`deleted_at` IS NULL
+2022/01/21 12:08:42 find domain worning name: kkkkkkkkkkkkk
+[GIN] 2022/01/21 - 12:08:42 | 200 |     703.254µs |       127.0.0.1 | GET      "/?q=kkkkkkkkkkkkk"
+
+2022/01/21 12:08:44 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:310
+[0m[33m[0.133ms] [34;1m[rows:1][0m SELECT * FROM `domains` WHERE name = "baidu.com" AND `domains`.`deleted_at` IS NULL
+2022/01/21 12:08:44 查询到数据
+[GIN] 2022/01/21 - 12:08:44 | 200 |    2.243379ms |       127.0.0.1 | GET      "/?q=baidu.com"
+
+2022/01/21 12:08:46 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:310
+[0m[33m[0.174ms] [34;1m[rows:0][0m SELECT * FROM `domains` WHERE name = "kkkkkkkkkkkkk" AND `domains`.`deleted_at` IS NULL
+2022/01/21 12:08:46 find domain worning name: kkkkkkkkkkkkk
+[GIN] 2022/01/21 - 12:08:46 | 200 |     729.593µs |       127.0.0.1 | GET      "/?q=kkkkkkkkkkkkk"
+
+2022/01/21 12:08:49 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:310
+[0m[33m[0.104ms] [34;1m[rows:0][0m SELECT * FROM `domains` WHERE name = "44" AND `domains`.`deleted_at` IS NULL
+2022/01/21 12:08:49 find domain worning name: 44
+[GIN] 2022/01/21 - 12:08:49 | 200 |     583.132µs |       127.0.0.1 | GET      "/?q=44"
+2022/01/21 12:08:51 namt tpl:  domain.html
+[GIN] 2022/01/21 - 12:08:51 | 200 |  108.490916ms |       127.0.0.1 | GET      "/domain"
+[GIN] 2022/01/21 - 12:08:52 | 200 |    1.675375ms |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 14:04:19 | 200 |     668.686µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 14:04:21 | 200 |     382.933µs |       127.0.0.1 | GET      "/"
+[GIN] 2022/01/21 - 14:04:26 | 200 |     234.835µs |       127.0.0.1 | GET      "/"
+
+2022/01/21 14:04:32 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:277
+[0m[33m[1.181ms] [34;1m[rows:1][0m SELECT * FROM `ip_addrs` WHERE ip = "62.220.27.213" AND `ip_addrs`.`deleted_at` IS NULL
+map[created_at:2021-12-30T15:46:03.657546552-05:00 id:20 name:nrj.com updated_at:2021-12-30T15:46:03.657546552-05:00]
+map[created_at:2021-12-30T15:46:03.657546552-05:00 id:20 name:nrj.com updated_at:2021-12-30T15:46:03.657546552-05:00]
+2022/01/21 14:04:32 查询到数据
+[GIN] 2022/01/21 - 14:04:32 | 200 |    5.792009ms |       127.0.0.1 | GET      "/?q=62.220.27.213"
+
+2022/01/21 14:04:34 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:310
+[0m[33m[0.220ms] [34;1m[rows:1][0m SELECT * FROM `domains` WHERE name = "baidu.com" AND `domains`.`deleted_at` IS NULL
+2022/01/21 14:04:34 查询到数据
+[GIN] 2022/01/21 - 14:04:34 | 200 |    2.311354ms |       127.0.0.1 | GET      "/?q=baidu.com"
+
+2022/01/21 14:04:50 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:277
+[0m[33m[0.226ms] [34;1m[rows:0][0m SELECT * FROM `ip_addrs` WHERE ip = "127.1.2.1" AND `ip_addrs`.`deleted_at` IS NULL
+[GIN] 2022/01/21 - 14:04:50 | 200 |     605.413µs |       127.0.0.1 | GET      "/?q=127.1.2.1"
+
+2022/01/21 14:04:53 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:277
+[0m[33m[0.160ms] [34;1m[rows:0][0m SELECT * FROM `ip_addrs` WHERE ip = "127.1.2.1" AND `ip_addrs`.`deleted_at` IS NULL
+[GIN] 2022/01/21 - 14:04:53 | 200 |     483.257µs |       127.0.0.1 | GET      "/?q=127.1.2.1"
+
+2022/01/21 14:04:54 [32m/home/ipumpkin/go/src/IPDNS/NameAdmin/admin/main.go:310
+[0m[33m[0.141ms] [34;1m[rows:1][0m SELECT * FROM `domains` WHERE name = "baidu.com" AND `domains`.`deleted_at` IS NULL
+2022/01/21 14:04:54 查询到数据
+[GIN] 2022/01/21 - 14:04:54 | 200 |    2.305706ms |       127.0.0.1 | GET      "/?q=baidu.com"
