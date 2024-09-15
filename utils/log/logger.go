@@ -2,52 +2,33 @@ package log
 
 import (
 	"os"
+	"path/filepath"
 	"sync"
+	"time"
 
 	config "miniScan/utils/conf"
 
+	"github.com/natefinch/lumberjack"
 	"github.com/sirupsen/logrus"
 )
 
-// Logger defines a set of methods for writing application logs. Derived from and
-// inspired by logrus.Entry.
-type Logger interface {
-	Debug(args ...interface{})
-	Debugf(format string, args ...interface{})
-	Debugln(args ...interface{})
-	Error(args ...interface{})
-	Errorf(format string, args ...interface{})
-	Errorln(args ...interface{})
-	Fatal(args ...interface{})
-	Fatalf(format string, args ...interface{})
-	Fatalln(args ...interface{})
-	Info(args ...interface{})
-	Infof(format string, args ...interface{})
-	Infoln(args ...interface{})
-	Panic(args ...interface{})
-	Panicf(format string, args ...interface{})
-	Panicln(args ...interface{})
-	Print(args ...interface{})
-	Printf(format string, args ...interface{})
-	Println(args ...interface{})
-	Warn(args ...interface{})
-	Warnf(format string, args ...interface{})
-	Warning(args ...interface{})
-	Warningf(format string, args ...interface{})
-	Warningln(args ...interface{})
-	Warnln(args ...interface{})
-}
-
+// 定义日志实例
 var defaultLogger *logrus.Logger
+var LogPortScan *logrus.Logger
+var LogDomain *logrus.Logger
+var LogWebInfo *logrus.Logger
 var logger *logrus.Logger
 var once sync.Once
 
 func init() {
+	// 初始化不同的日志实例
+	LogPortScan = newLogrusLoggerWithRotation(config.Config(), "portscan", "端口扫描")
+	LogDomain = newLogrusLoggerWithRotation(config.Config(), "domain", "子域名扫描")
+	LogWebInfo = newLogrusLoggerWithRotation(config.Config(), "web", "web探测")
 	defaultLogger = newLogrusLogger(config.Config())
 }
 
 // NewLogger returns a configured logrus instance
-
 func NewLogger(cfg config.Provider) *logrus.Logger {
 	once.Do(func() {
 		logger = newLogrusLogger(cfg)
@@ -55,10 +36,9 @@ func NewLogger(cfg config.Provider) *logrus.Logger {
 	return logger
 }
 
+// newLogrusLogger 创建基本的日志实例
 func newLogrusLogger(cfg config.Provider) *logrus.Logger {
-
 	l := logrus.New()
-
 	if cfg.GetBool("json_logs") {
 		l.Formatter = new(logrus.JSONFormatter)
 	}
@@ -74,6 +54,42 @@ func newLogrusLogger(cfg config.Provider) *logrus.Logger {
 	default:
 		l.Level = logrus.DebugLevel
 	}
+	return l
+}
+
+// newLogrusLoggerWithRotation 创建带有日志轮转功能的日志实例
+func newLogrusLoggerWithRotation(cfg config.Provider, filename string, prefix string) *logrus.Logger {
+	l := logrus.New()
+
+	// 设置文件名，包含功能名称和日期
+	date := time.Now().Format("2006-01-02")
+	logFile := filepath.Join("logs", filename+"-"+date+".log")
+
+	// 使用 lumberjack 控制日志大小和轮转
+	lumberjackLogger := &lumberjack.Logger{
+		Filename:   logFile,
+		MaxSize:    1,    // 文件最大10MB
+		MaxBackups: 10,   // 保留最近3个备份
+		MaxAge:     30,   // 日志保存最大28天
+		Compress:   true, // 是否压缩旧日志文件
+	}
+
+	l.Out = lumberjackLogger
+
+	// 根据配置设置日志级别
+	switch cfg.GetString(prefix + ".Level") {
+	case "debug":
+		l.Level = logrus.DebugLevel
+	case "warning":
+		l.Level = logrus.WarnLevel
+	case "info":
+		l.Level = logrus.InfoLevel
+	default:
+		l.Level = logrus.DebugLevel
+	}
+
+	// 设置日志前缀
+	l.WithField("prefix", prefix)
 
 	return l
 }
@@ -93,11 +109,6 @@ func (f Fields) WithFields(f2 Fields) Fields {
 		f[k] = v
 	}
 	return f
-}
-
-// WithFields allow us to define fields in out structured logs
-func WithFields(fields Fields) Logger {
-	return defaultLogger.WithFields(logrus.Fields(fields))
 }
 
 // Debug package-level convenience method.
