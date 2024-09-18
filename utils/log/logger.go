@@ -48,11 +48,27 @@ func newLogrusLogger(cfg config.Provider) *logrus.Logger {
 
 	if cfg.GetBool("json_logs") {
 		l.Formatter = new(logrus.JSONFormatter)
+		// l.Out = os.Stderr
 	} else {
 		// Use custom TextFormatter
+		date := time.Now().Format("2006-01-02")
+		logFile := filepath.Join("logs", "default_log"+"-"+date+".log")
+
+		// Use lumberjack to handle log size and rotation
+		lumberjackLogger := &lumberjack.Logger{
+			Filename:   logFile,
+			MaxSize:    1,    // Maximum file size of 1MB
+			MaxBackups: 10,   // Keep the last 10 backups
+			MaxAge:     30,   // Keep logs for a maximum of 30 days
+			Compress:   true, // Compress old log files
+		}
+
+		// Create multi-writer for both stdout and file
+		mw := io.MultiWriter(os.Stdout, lumberjackLogger)
+		l.Out = mw
+
 		l.Formatter = &CustomTextFormatter{Prefix: "DEFAULT-LOG"}
 	}
-	l.Out = os.Stderr
 
 	switch cfg.GetString("loglevel") {
 	case "debug":
