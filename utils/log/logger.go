@@ -50,7 +50,7 @@ func newLogrusLogger(cfg config.Provider) *logrus.Logger {
 		l.Formatter = new(logrus.JSONFormatter)
 	} else {
 		// Use custom TextFormatter
-		l.Formatter = &CustomTextFormatter{Prefix: "LOG"}
+		l.Formatter = &CustomTextFormatter{Prefix: "DEFAULT-LOG"}
 	}
 	l.Out = os.Stderr
 

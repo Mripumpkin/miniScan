@@ -3,7 +3,7 @@
 # 支持字符、数字、数组、注释
 
 # json_logs = true # 配置日志输出json格式选项
-run_level = "development" # 配置应用运行级别  production/development
+run_level = "production" # 配置应用运行级别  production/development
 
 [app]
 jwt_access_token_timeout = 240 # 单位分钟
@@ -30,6 +30,7 @@ port = 2830 # 指定服务器
 
 
 [mongo]
+name = "mongodb"
 conn_timeout = 10 # 数据库连接超时时间, 单位 s
 dbname = "miniScan" # 运营平台数据库名称 
 host = "0.0.0.0" 
@@ -38,6 +39,7 @@ port = 27017
 username = "root" 
 
 [redis]
+name = "redis"
 conn_timeout = 500 # 单位毫秒
 host = "127.0.0.1" 
 password = "miniScan" 
@@ -47,10 +49,8 @@ db_index = 1
 async_index = 0
 
 [mongo.table]
-last_ioc_detection = "last_ioc_detection" # 最新ioc用例结果表
-last_pcap_detection = "last_pcap_detection" # 最新pcap用例结果表
-last_sample_detection = "last_sample_detection" # 最新sample用例结果表
-last_poc_detection = "last_poc_detection" # 最新poc用例表
+engine_docker = "engine_docker" 
+
 
 [backup]
 dir = "backup"

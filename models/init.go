@@ -42,7 +42,6 @@ func initDB(cfg config.Provider) *qmgo.Database {
 	host := cfg.GetString("mongo.host")
 	port := cfg.GetString("mongo.port")
 	dbname := cfg.GetString("mongo.dbname")
-
 	URI := fmt.Sprintf("mongodb://%s:%s@%s:%s/?authSource=admin&directConnection=true", username, url.QueryEscape(password), host, port)
 	timeout := cfg.GetInt64("mongo.conn_timeout")
 	client, err := qmgo.NewClient(ctx, &qmgo.Config{
