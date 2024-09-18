@@ -1,0 +1,50 @@
+version: '3.3'
+services:
+  redis:
+    image: redis:6.2.11
+    container_name: redis
+    restart: always
+    ports:
+      - '6370:6379'
+    volumes:
+      - ./data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+  
+  mongodb:
+    # host name = container name
+    hostname: mongodb
+    container_name: mongodb
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+    volumes:
+      #- ./data:/data
+      - ./auth.key:/opt/mongo/auth.key
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: miniScan
+    command: mongod --replSet rs0 --keyFile /opt/mongo/auth.key --bind_ip_all
+    entrypoint:
+      - bash
+      - -c 
+      - |
+         chmod 400 /opt/mongo/auth.key
+         chown mongodb:root /opt/mongo/auth.key
+         exec docker-entrypoint.sh $$@
+
+  mongo-setup:
+    container_name: "mongo-setup"
+    image: mongo:5.0
+    depends_on:
+     - "mongodb"
+    links:
+     - mongodb:mongodb
+    volumes:
+     - ./setup.sh:/setup.sh
+    environment:
+     - MONGO1=mongodb
+     - MONGO_ROOT_USERNAME=root
+     - MONGO_ROOT_PASSWORD=miniScan 
+     - RS=rs0
+    entrypoint: [ "/setup.sh" ]

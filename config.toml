@@ -32,18 +32,19 @@ port = 2830 # 指定服务器
 [mongo]
 conn_timeout = 10 # 数据库连接超时时间, 单位 s
 dbname = "miniScan" # 运营平台数据库名称 
-host = "172.31.50.35" 
-password = "example" 
+host = "0.0.0.0" 
+password = "miniScan" 
 port = 27017 
 username = "root" 
 
 [redis]
 conn_timeout = 500 # 单位毫秒
 host = "127.0.0.1" 
-password = "fyh950720" 
+password = "miniScan" 
 port = 6370 
 username = "" 
 db_index = 1
+async_index = 0
 
 [mongo.table]
 last_ioc_detection = "last_ioc_detection" # 最新ioc用例结果表

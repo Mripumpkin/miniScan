@@ -9,19 +9,22 @@ import (
 	"github.com/spf13/viper"
 )
 
+// Settings holds the application configuration
 var Settings = &SettingsConf{}
 
+// SettingsConf contains configuration settings
 type SettingsConf struct {
 	App App `mapstructure:"app"`
 }
 
+// App holds application-specific settings
 type App struct {
 	Secret string `mapstructure:"jwt_secret_token"`
 	Salt   string `mapstructure:"salt"`
 }
 
 // Provider defines a set of read-only methods for accessing the application
-// configuration params as defined in one of the config files.
+// configuration parameters as defined in one of the config files.
 type Provider interface {
 	ConfigFileUsed() string
 	Get(key string) interface{}
@@ -41,27 +44,21 @@ type Provider interface {
 	IsSet(key string) bool
 }
 
-var defaultConfig *viper.Viper
-var provider *viper.Viper
-var once sync.Once
-var onceRedis sync.Once
+var (
+	defaultConfig *viper.Viper
+	provider      *viper.Viper
+	once          sync.Once
+)
 
-// Config returns a default config providers
+// Config returns the default config provider
 func Config() Provider {
+	defaultConfig = readViperConfig()
 	return defaultConfig
 }
 
 // LoadConfigProvider returns a configured viper instance
 func LoadConfigProvider() Provider {
-
 	once.Do(func() {
-		provider = readViperConfig()
-	})
-	return provider
-}
-
-func LoadConfigProviderRedis() Provider {
-	onceRedis.Do(func() {
 		provider = readViperConfig()
 	})
 	return provider
@@ -71,12 +68,10 @@ func init() {
 	defaultConfig = readViperConfig()
 }
 
+// readViperConfig reads and returns a configured viper instance
 func readViperConfig() *viper.Viper {
-	// 环境变量设置支持
 	v := viper.New()
-	v.SetEnvPrefix("op")
-
-	// 文件设置支持
+	v.SetEnvPrefix("miniScan")
 	v.AddConfigPath(".")
 	v.AddConfigPath("./")
 	v.SetConfigName("config")
@@ -91,13 +86,15 @@ func readViperConfig() *viper.Viper {
 		panic(fmt.Errorf("ratal error config file: %s ", err))
 	}
 
-	// global defaults
+	// Set default values
 	v.SetDefault("json_logs", false)
 	v.SetDefault("loglevel", "debug")
 
-	_ = v.Unmarshal(Settings)
+	if err := v.Unmarshal(Settings); err != nil {
+		panic(fmt.Errorf("unable to decode into struct: %v", err))
+	}
 
-	// 本地开发配置
+	// Load local development configuration if applicable
 	runLevel := v.GetString("run_level")
 	if runLevel == "development" {
 		v.SetConfigName("config.local")
