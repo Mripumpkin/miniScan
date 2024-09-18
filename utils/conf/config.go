@@ -78,8 +78,8 @@ func readViperConfig() *viper.Viper {
 
 	// 文件设置支持
 	v.AddConfigPath(".")
-	v.AddConfigPath("/srv/op_dev")
-	v.SetConfigName("settings")
+	v.AddConfigPath("./")
+	v.SetConfigName("config")
 	v.SetConfigType("toml")
 
 	v.AutomaticEnv()
@@ -100,7 +100,7 @@ func readViperConfig() *viper.Viper {
 	// 本地开发配置
 	runLevel := v.GetString("run_level")
 	if runLevel == "development" {
-		v.SetConfigName("settings.local")
+		v.SetConfigName("config.local")
 		v.SetConfigType("toml")
 		v.AddConfigPath(".")
 		v.MergeInConfig()

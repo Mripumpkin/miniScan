@@ -1,0 +1,57 @@
+
+# 文件语法参考 https://toml.io/cn/v1.0.0
+# 支持字符、数字、数组、注释
+
+# json_logs = true # 配置日志输出json格式选项
+run_level = "development" # 配置应用运行级别  production/development
+
+[app]
+jwt_access_token_timeout = 240 # 单位分钟
+jwt_refresh_token_timeout = 2880 # 单位分钟
+jwt_secret_token = "antiy123.com" # jwt 加密使用
+salt = "antiy123.com" # 用户密码加密使用
+cache_timeout = 5 # 缓存超时 单位分钟
+user_cache_timeout = 5 # 用户信息缓存超时 单位分钟
+dev_verify_code_state = true # 是否启用验证码验证
+crawl_rod_addr = [
+    "ws://127.0.0.1:7317",
+    "ws://127.0.0.1:7318",
+    "ws://127.0.0.1:7319"
+    ] 
+repeate_request_interval = 2 # 请求重复提交时间间隔
+usecase_query_cache_timeout = 2 # 用例查询聚合缓存自动过期时间, 单位小时
+usecase_query_cache_suffix = "_aggs_query"
+ssl_cert_file = "deploy/ssl/mycert.crt"
+ssl_key_file = "deploy/ssl/mykey.key"
+
+[server]
+host = "0.0.0.0" # 指定服务器监听地址
+port = 2830 # 指定服务器
+
+
+[mongo]
+conn_timeout = 10 # 数据库连接超时时间, 单位 s
+dbname = "miniScan" # 运营平台数据库名称 
+host = "172.31.50.35" 
+password = "example" 
+port = 27017 
+username = "root" 
+
+[redis]
+conn_timeout = 500 # 单位毫秒
+host = "127.0.0.1" 
+password = "fyh950720" 
+port = 6370 
+username = "" 
+db_index = 1
+
+[mongo.table]
+last_ioc_detection = "last_ioc_detection" # 最新ioc用例结果表
+last_pcap_detection = "last_pcap_detection" # 最新pcap用例结果表
+last_sample_detection = "last_sample_detection" # 最新sample用例结果表
+last_poc_detection = "last_poc_detection" # 最新poc用例表
+
+[backup]
+dir = "backup"
+
+
