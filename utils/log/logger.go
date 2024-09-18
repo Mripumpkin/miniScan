@@ -1,8 +1,11 @@
 package log
 
 import (
+	"fmt"
+	"io"
 	"os"
 	"path/filepath"
+	"runtime"
 	"sync"
 	"time"
 
@@ -39,8 +42,12 @@ func NewLogger(cfg config.Provider) *logrus.Logger {
 // newLogrusLogger 创建基本的日志实例
 func newLogrusLogger(cfg config.Provider) *logrus.Logger {
 	l := logrus.New()
+
 	if cfg.GetBool("json_logs") {
 		l.Formatter = new(logrus.JSONFormatter)
+	} else {
+		// 使用自定义的 TextFormatter
+		l.Formatter = &CustomTextFormatter{}
 	}
 	l.Out = os.Stderr
 
@@ -57,7 +64,7 @@ func newLogrusLogger(cfg config.Provider) *logrus.Logger {
 	return l
 }
 
-// newLogrusLoggerWithRotation 创建带有日志轮转功能的日志实例
+// newLogrusLoggerWithRotation 创建带有日志轮转功能的日志实例，并同时写入到控制台
 func newLogrusLoggerWithRotation(cfg config.Provider, filename string, prefix string) *logrus.Logger {
 	l := logrus.New()
 
@@ -68,13 +75,18 @@ func newLogrusLoggerWithRotation(cfg config.Provider, filename string, prefix st
 	// 使用 lumberjack 控制日志大小和轮转
 	lumberjackLogger := &lumberjack.Logger{
 		Filename:   logFile,
-		MaxSize:    1,    // 文件最大10MB
-		MaxBackups: 10,   // 保留最近3个备份
-		MaxAge:     30,   // 日志保存最大28天
+		MaxSize:    1,    // 文件最大1MB
+		MaxBackups: 10,   // 保留最近10个备份
+		MaxAge:     30,   // 日志保存最大30天
 		Compress:   true, // 是否压缩旧日志文件
 	}
 
-	l.Out = lumberjackLogger
+	// 创建多输出 writer
+	mw := io.MultiWriter(os.Stdout, lumberjackLogger)
+	l.Out = mw
+
+	// 使用自定义的 TextFormatter
+	l.Formatter = &CustomTextFormatter{Prefix: prefix}
 
 	// 根据配置设置日志级别
 	switch cfg.GetString(prefix + ".Level") {
@@ -88,10 +100,61 @@ func newLogrusLoggerWithRotation(cfg config.Provider, filename string, prefix st
 		l.Level = logrus.DebugLevel
 	}
 
-	// 设置日志前缀
-	l.WithField("prefix", prefix)
-
 	return l
+}
+
+// CustomTextFormatter 自定义的 TextFormatter
+type CustomTextFormatter struct {
+	Prefix string
+}
+
+// Format 格式化日志输出
+func (f *CustomTextFormatter) Format(entry *logrus.Entry) ([]byte, error) {
+	// 获取调用者信息
+	_, file, line, ok := runtime.Caller(6)
+	if !ok {
+		file = "unknown"
+		line = 0
+	}
+
+	// 格式化时间
+	timestamp := entry.Time.Format("2006-01-02 15:04:05,999")
+
+	// 格式化日志级别
+	level := entry.Level.String()
+
+	// 颜色设置
+	var levelColor, resetColor string
+	switch entry.Level {
+	case logrus.DebugLevel:
+		levelColor = "\033[34m" // Blue
+	case logrus.InfoLevel:
+		levelColor = "\033[34m" // Green
+	case logrus.WarnLevel:
+		levelColor = "\033[33m" // Yellow
+	case logrus.ErrorLevel:
+		levelColor = "\033[31m" // Red
+	case logrus.FatalLevel, logrus.PanicLevel:
+		levelColor = "\033[35m" // Magenta
+	default:
+		levelColor = "\033[0m" // Default
+	}
+	resetColor = "\033[0m"
+
+	// 格式化消息
+	msg := entry.Message
+
+	// 生成日志行
+	lineText := fmt.Sprintf("[%s%s%s][%s%s%s][%s] %s (%s:%d)\n",
+		levelColor, f.Prefix, resetColor,
+		levelColor, level, resetColor,
+		timestamp,
+		msg,
+		filepath.Base(file),
+		line,
+	)
+
+	return []byte(lineText), nil
 }
 
 // Fields is a map string interface to define fields in the structured log
