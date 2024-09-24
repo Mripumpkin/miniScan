@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package taskmanager;
+
+option go_package = "./proto";
+
+service TaskService {
+  rpc EnqueueTask(TaskPayload) returns (TaskResponse);
+}
+
+message TaskPayload  {
+  string uuid = 1;
+  string msg = 2;
+  string format = 3;
+  string scan_type = 4;
+  repeated string plugins = 5;
+  int32 execution_time = 6;
+  int32 delay = 7;
+  bool implement = 8;
+}
+
+message TaskResponse {
+  string task_id = 1;
+  string queue = 2;
+  string status = 3;
+  string uuid = 4;
+}

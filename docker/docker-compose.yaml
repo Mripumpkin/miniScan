@@ -12,7 +12,6 @@ services:
     command: redis-server /usr/local/etc/redis/redis.conf
   
   mongodb:
-    # host name = container name
     hostname: mongodb
     container_name: mongodb
     image: mongo:5.0
